@@ -1,4 +1,8 @@
 import React, { useState, useEffect } from 'react';
+import Accordion from '@mui/material/Accordion';
+import AccordionSummary from '@mui/material/AccordionSummary';
+import AccordionDetails from '@mui/material/AccordionDetails';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
 const GithubApiUrl = `https://api.github.com/users/gidizi/repos`
 
@@ -63,18 +67,23 @@ const ReposByUser: React.FC<any> = () => {
 
     useEffect(() => {
         getReposData()
-
     }, [])
-
     return (
         <div>
-            <ul>
-                {reposData.map(repoData => (<li key={repoData.name}>{repoData.name}</li>))}
-            </ul>
+            {reposData.map(repoData => (<Accordion><AccordionSummary
+                expandIcon={<ExpandMoreIcon />}
+                aria-controls="panel1-content"
+                id="panel1-header"
+            >
+                {repoData.name}
+            </AccordionSummary>
+                <AccordionDetails>
+                    {repoData.description}
+                </AccordionDetails></Accordion>))}
             < button
-            onClick={() => { }}
-        >
-            get repositories
+                onClick={() => { }}
+            >
+                get repositories
             </button >
         </div>
     );

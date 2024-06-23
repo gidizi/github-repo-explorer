@@ -67,11 +67,16 @@ const ReposByUser: React.FC<any> = () => {
     }, [])
 
     return (
-        <button
+        <div>
+            <ul>
+                {reposData.map(repoData => (<li key={repoData.name}>{repoData.name}</li>))}
+            </ul>
+            < button
             onClick={() => { }}
         >
             get repositories
-        </button>
+            </button >
+        </div>
     );
 };
 

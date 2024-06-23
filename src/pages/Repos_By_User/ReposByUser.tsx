@@ -3,19 +3,13 @@ import Accordion from '@mui/material/Accordion';
 import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import { RepoDetails } from './types';
+import RepositoryDetails from './components/RepositoryDetails';
 
 const GithubApiUrl = `https://api.github.com/users/gidizi/repos`
 
 //todo: consider splitting into basic and additional
-interface RepoDetails {
-    name: string;
-    description: string | null;
-    starCount: number;
-    forkCount: number;
-    url: string; //check type
-    openIssuesCount: number; //check type
-    languagesUrl: string;
-}
+
 
 //todo: another api call to get languages
 interface RepoDTO {
@@ -80,10 +74,7 @@ const ReposByUser: React.FC<any> = () => {
                 </React.Fragment>
             </AccordionSummary>
                 <AccordionDetails>
-                    <React.Fragment>Url:{repoData.url}<br />
-                        open issues:{repoData.openIssuesCount}<br />
-                        programing languages:<br />
-                    </React.Fragment>
+                    <RepositoryDetails url={repoData.url} openIssuesCount={repoData.openIssuesCount} languagesUrl={repoData.languagesUrl} />
                 </AccordionDetails></Accordion >))
             }
             < button

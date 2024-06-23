@@ -56,9 +56,7 @@ const ReposByUser: React.FC<any> = () => {
                 "Accept": "application/vnd.github+json",
             },
         })
-        console.log("res", res)
         const listReposForUser = await res.json() as RepoDTO[]
-        console.log(listReposForUser)
         const reposDetails = mapDTOToRepoDetails(listReposForUser)
         setReposData(reposDetails)
 
@@ -75,17 +73,25 @@ const ReposByUser: React.FC<any> = () => {
                 aria-controls="panel1-content"
                 id="panel1-header"
             >
-                {repoData.name}
+                <React.Fragment>name:{repoData.name}<br />
+                    description:{repoData.description}<br />
+                    star:{repoData.starCount}<br />
+                    fork:{repoData.forkCount}<br />
+                </React.Fragment>
             </AccordionSummary>
                 <AccordionDetails>
-                    {repoData.description}
-                </AccordionDetails></Accordion>))}
+                    <React.Fragment>Url:{repoData.url}<br />
+                        open issues:{repoData.openIssuesCount}<br />
+                        programing languages:<br />
+                    </React.Fragment>
+                </AccordionDetails></Accordion >))
+            }
             < button
                 onClick={() => { }}
             >
                 get repositories
             </button >
-        </div>
+        </div >
     );
 };
 

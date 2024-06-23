@@ -1,3 +1,9 @@
+node v20.15.0
+
+npm install
+#note: what installing the packages, it alerts about several vulnerabilities.
+The "high severitly" vulnerabilites among them, are being caused by the react-script library which is part of the "create react app" that was explicitly defined at the task. there is no easy fix for that issue
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).

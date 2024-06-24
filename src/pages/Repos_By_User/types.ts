@@ -4,7 +4,7 @@ export interface RepoDetails {
     description: string | null;
     starCount: number;
     forkCount: number;
-    url: string; //check type
-    openIssuesCount: number; //check type
+    url: string;
+    openIssuesCount: number;
     languagesUrl: string;
 }

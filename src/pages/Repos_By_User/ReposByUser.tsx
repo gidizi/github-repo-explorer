@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, ChangeEvent } from 'react';
 import Accordion from '@mui/material/Accordion';
 import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
@@ -6,12 +6,11 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { RepoDetails } from './types';
 import RepositoryDetails from './components/RepositoryDetails';
 
-const GithubApiUrl = `https://api.github.com/users/gidizi/repos`
+const GithubApiUrlGenerator = (username: string) => `https://api.github.com/users/${username}/repos`
 
 //todo: consider splitting into basic and additional
 
-
-//todo: another api call to get languages
+//todo: organize interfaces and utils
 interface RepoDTO {
     name: string;
     description: string | null;
@@ -41,11 +40,11 @@ const mapDTOToRepoDetails = (reposDTO: RepoDTO[]): RepoDetails[] => {
 
 //todo: take care of pagination
 const ReposByUser: React.FC<any> = () => {
-    const [username, setUsername] = useState(null) //todo: make it sync to input with the proper type
+    const [username, setUsername] = useState("")
     const [reposData, setReposData] = useState<RepoDetails[]>([])
 
     async function getReposData() {
-        const res = await fetch(GithubApiUrl, {
+        const res = await fetch(GithubApiUrlGenerator(username), {
             headers: {
                 "Accept": "application/vnd.github+json",
             },
@@ -57,31 +56,38 @@ const ReposByUser: React.FC<any> = () => {
         //add error handling
     }
 
-    useEffect(() => {
-        getReposData()
-    }, [])
+    function handleInputChange(e: ChangeEvent<HTMLInputElement>) {
+        setUsername(e.target.value);
+    }
+
+
     return (
         <div>
-            {reposData.map(repoData => (<Accordion><AccordionSummary
-                expandIcon={<ExpandMoreIcon />}
-                aria-controls="panel1-content"
-                id="panel1-header"
-            >
-                <React.Fragment>name:{repoData.name}<br />
-                    description:{repoData.description}<br />
-                    star:{repoData.starCount}<br />
-                    fork:{repoData.forkCount}<br />
-                </React.Fragment>
-            </AccordionSummary>
-                <AccordionDetails>
-                    <RepositoryDetails url={repoData.url} openIssuesCount={repoData.openIssuesCount} languagesUrl={repoData.languagesUrl} />
-                </AccordionDetails></Accordion >))
-            }
+            {/* <form> */}
+            <input type='text' value={username} onChange={handleInputChange} />
             < button
-                onClick={() => { }}
+                onClick={() => { getReposData() }}
             >
                 get repositories
             </button >
+            {/* // </form> */}
+            {
+                reposData.map(repoData => (<Accordion><AccordionSummary
+                    expandIcon={<ExpandMoreIcon />}
+                    aria-controls="panel1-content"
+                    id="panel1-header"
+                >
+                    <React.Fragment>name:{repoData.name}<br />
+                        description:{repoData.description}<br />
+                        star:{repoData.starCount}<br />
+                        fork:{repoData.forkCount}<br />
+                    </React.Fragment>
+                </AccordionSummary>
+                    <AccordionDetails>
+                        <RepositoryDetails url={repoData.url} openIssuesCount={repoData.openIssuesCount} languagesUrl={repoData.languagesUrl} />
+                    </AccordionDetails></Accordion >))
+            }
+
         </div >
     );
 };

@@ -1,4 +1,4 @@
-import React, { useState, ChangeEvent } from 'react';
+import React, { useState, ChangeEvent, FormEvent } from 'react';
 import Accordion from '@mui/material/Accordion';
 import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
@@ -8,7 +8,6 @@ import RepositoryDetails from './components/RepositoryDetails';
 
 const GithubApiUrlGenerator = (username: string) => `https://api.github.com/users/${username}/repos`
 
-//todo: consider splitting into basic and additional
 
 //todo: organize interfaces and utils
 interface RepoDTO {
@@ -20,6 +19,12 @@ interface RepoDTO {
     open_issues_count: number;
     languages_url: string;
     [key: string]: any;
+}
+
+interface FailedGitlabResponse {
+    documentation_url: string;
+    message: string;
+    status: string;
 }
 
 const mapDTOToRepoDetails = (reposDTO: RepoDTO[]): RepoDetails[] => {
@@ -41,36 +46,57 @@ const mapDTOToRepoDetails = (reposDTO: RepoDTO[]): RepoDetails[] => {
 //todo: take care of pagination
 const ReposByUser: React.FC<any> = () => {
     const [username, setUsername] = useState("")
+    const [error, setError] = useState<string | null>(null);
+    const [isSubmitting, setIsSubmitting] = useState(false);
     const [reposData, setReposData] = useState<RepoDetails[]>([])
 
-    async function getReposData() {
-        const res = await fetch(GithubApiUrlGenerator(username), {
+    async function getReposData(githubUser: string) {
+        const res = await fetch(GithubApiUrlGenerator(githubUser), {
             headers: {
                 "Accept": "application/vnd.github+json",
             },
         })
-        const listReposForUser = await res.json() as RepoDTO[]
-        const reposDetails = mapDTOToRepoDetails(listReposForUser)
-        setReposData(reposDetails)
+        console.log("res", res)
+        if (res.status === 200) {
+            const listReposForUser = await res.json() as RepoDTO[]
+            const reposDetails = mapDTOToRepoDetails(listReposForUser)
+            setReposData(reposDetails)
+        } else {
+            const parsedErrResponse = await res.json() as FailedGitlabResponse
+            const errorMessage = parsedErrResponse.message ? parsedErrResponse.message : "Unknown error has occured"
+            setError(errorMessage)
+        }
+    }
 
-        //add error handling
+    function handleSubmit(e: FormEvent<HTMLFormElement>) {
+        e.preventDefault()
+        setIsSubmitting(true)
+        try {
+            getReposData(username)
+            setIsSubmitting(false)
+        } catch (error) {
+            // setError(error)
+            setIsSubmitting(false)
+        }
     }
 
     function handleInputChange(e: ChangeEvent<HTMLInputElement>) {
         setUsername(e.target.value);
+        setError(null)
     }
+
 
 
     return (
         <div>
-            {/* <form> */}
-            <input type='text' value={username} onChange={handleInputChange} />
-            < button
-                onClick={() => { getReposData() }}
-            >
-                get repositories
-            </button >
-            {/* // </form> */}
+            <form onSubmit={handleSubmit}>
+                <input type='text' value={username} onChange={handleInputChange} /><br />
+                < button disabled={username.length === 0 || isSubmitting}>
+                    submit
+                </button >
+            </form>
+
+            {error}
             {
                 reposData.map(repoData => (<Accordion><AccordionSummary
                     expandIcon={<ExpandMoreIcon />}

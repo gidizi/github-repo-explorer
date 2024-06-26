@@ -8,7 +8,9 @@ import RepositoryDetails from './components/RepositoryDetails';
 
 const GithubApiUrlGenerator = (username: string) => `https://api.github.com/users/${username}/repos`
 
-
+//todo: extract components of head an extra details
+//todo: improve visual display
+//todo: consider making conversion table of popular github errors
 //todo: organize interfaces and utils
 interface RepoDTO {
     name: string;
@@ -70,6 +72,7 @@ const ReposByUser: React.FC<any> = () => {
 
     function handleSubmit(e: FormEvent<HTMLFormElement>) {
         e.preventDefault()
+        setReposData([])
         setIsSubmitting(true)
         try {
             getReposData(username)

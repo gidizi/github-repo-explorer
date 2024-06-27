@@ -91,14 +91,13 @@ const ReposByUser: React.FC<any> = () => {
             setReposData(reposDetails)
             setPublicRepoNum((userDetailsData as UserDetails).public_repos)
         } else {
+            setReposData([])
             setPublicRepoNum(null)
             if (repoLisetRes.status !== 200) {
                 setError((repoListData as FailedGitlabResponse).message)
-                return
             }
             if (userDetailsRes.status !== 200) {
                 setError((repoListData as FailedGitlabResponse).message) //notice: this will override the previous error if both appears. its an architectural decision
-                return
             }
         }
     }

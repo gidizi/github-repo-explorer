@@ -1,11 +1,7 @@
 import React, { useState, ChangeEvent, FormEvent } from 'react';
-import Accordion from '@mui/material/Accordion';
-import AccordionSummary from '@mui/material/AccordionSummary';
-import AccordionDetails from '@mui/material/AccordionDetails';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+
 import { RepoDetails } from './types';
-import RepositoryDetails from './components/RepositoryDetails';
-import RepositorySummary from './components/RepositorySummary';
+
 import Pagination from '@mui/material/Pagination';
 import Stack from '@mui/material/Stack';
 
@@ -131,18 +127,9 @@ const ReposByUser: React.FC<any> = () => {
             </form>
 
             {error && `an error has occured: ${error}`}
-            {
-                reposData.map(repoData => (<Accordion><AccordionSummary
-                    expandIcon={<ExpandMoreIcon />}
-                    aria-controls="panel1-content"
-                    id="panel1-header"
-                >
-                    <RepositorySummary name={repoData.name} description={repoData.description} starCount={repoData.starCount} forkCount={repoData.forkCount} />
-                </AccordionSummary>
-                    <AccordionDetails>
-                        <RepositoryDetails url={repoData.url} openIssuesCount={repoData.openIssuesCount} languagesUrl={repoData.languagesUrl} />
-                    </AccordionDetails></Accordion >))
-            }
+            <RepositoryList reposData={reposData} />
+
+
             {publicRepoNum && (<Stack spacing={2}>
                 <Pagination count={Math.ceil(publicRepoNum / resultsPerPage)} page={page} onChange={handleChange} />
             </Stack>)}

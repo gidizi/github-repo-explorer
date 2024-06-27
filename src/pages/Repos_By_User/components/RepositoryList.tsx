@@ -12,18 +12,33 @@ interface RepositoryListProps {
 }
 
 const RepositoryList: React.FC<RepositoryListProps> = ({ reposData }) => {
+    const [expanded, setExpanded] = React.useState<string | false>(false);
+
+    const handleChange =
+        (panel: string) => (event: React.SyntheticEvent, isExpanded: boolean) => {
+            setExpanded(isExpanded ? panel : false);
+        };
+
     return (
         <>
-            {reposData.map(repoData => (<Accordion><AccordionSummary
-                expandIcon={<ExpandMoreIcon />}
-                aria-controls="panel1-content"
-                id="panel1-header"
-            >
-                <RepositorySummary name={repoData.name} description={repoData.description} starCount={repoData.starCount} forkCount={repoData.forkCount} />
-            </AccordionSummary>
-                <AccordionDetails>
-                    <RepositoryDetails url={repoData.url} openIssuesCount={repoData.openIssuesCount} languagesUrl={repoData.languagesUrl} />
-                </AccordionDetails></Accordion >))}
+            {reposData.map(repoData => {
+                const panelId = `panel-${repoData.name}`;
+                const isCurrItemExpanded = expanded === panelId
+                return (<Accordion
+                    key={repoData.name}
+                    expanded={isCurrItemExpanded}
+                    onChange={handleChange(panelId)}
+                ><AccordionSummary
+                    expandIcon={<ExpandMoreIcon />}
+                    aria-controls="panel1-content"
+                    id="panel1-header"
+                >
+                        <RepositorySummary name={repoData.name} description={repoData.description} starCount={repoData.starCount} forkCount={repoData.forkCount} />
+                    </AccordionSummary>
+                    {isCurrItemExpanded && <AccordionDetails>
+                        <RepositoryDetails url={repoData.url} openIssuesCount={repoData.openIssuesCount} languagesUrl={repoData.languagesUrl} />
+                    </AccordionDetails>}</Accordion >)
+            })}
         </>
     );
 };

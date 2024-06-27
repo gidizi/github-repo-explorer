@@ -4,6 +4,7 @@ import { RepoDetails } from './types';
 
 import Pagination from '@mui/material/Pagination';
 import Stack from '@mui/material/Stack';
+import RepositoryList from './components/RepositoryList';
 
 const resultsPerPage = 30
 

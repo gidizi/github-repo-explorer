@@ -30,6 +30,7 @@ See the section about [deployment](https://facebook.github.io/create-react-app/d
 ##Consideration:
 1.when gitlab api is being used without personal/user/app token it is limited and therefore limitation error might appear.
 2.Results limitation / pagination: todo: fill it
+3.multiple api usage?
 3.The main api provides only a single language (probably the most used) from the repo.
 in order to get all languages used, we are making an additional network request.
 The result is potentially a very large number of network request which is inefficient and bad practice. - todo: its a bad comment because I can sent them only on openning the component

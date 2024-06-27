@@ -15,7 +15,6 @@ const repoListApiUrlGenerator = (username: string, page: number) => `https://api
 const userDetailsAPIUrlGenerator = (username: string) => `https://api.github.com/users/${username}`
 
 
-//todo: extract components of head an extra details
 //todo: improve visual display
 //todo: consider making conversion table of popular github errors
 //todo: organize interfaces and utils
@@ -57,7 +56,6 @@ const mapDTOToRepoDetails = (reposDTO: RepoDTO[]): RepoDetails[] => {
     return reposDetails
 }
 
-//todo: take care of pagination
 const ReposByUser: React.FC<any> = () => {
     const [username, setUsername] = useState("")
     const [error, setError] = useState<string | null>(null);
@@ -133,7 +131,6 @@ const ReposByUser: React.FC<any> = () => {
             </form>
 
             {error && `an error has occured: ${error}`}
-            {publicRepoNum}
             {
                 reposData.map(repoData => (<Accordion><AccordionSummary
                     expandIcon={<ExpandMoreIcon />}
@@ -143,7 +140,7 @@ const ReposByUser: React.FC<any> = () => {
                     <RepositorySummary name={repoData.name} description={repoData.description} starCount={repoData.starCount} forkCount={repoData.forkCount} />
                 </AccordionSummary>
                     <AccordionDetails>
-                        {/* <RepositoryDetails url={repoData.url} openIssuesCount={repoData.openIssuesCount} languagesUrl={repoData.languagesUrl} /> */}
+                        <RepositoryDetails url={repoData.url} openIssuesCount={repoData.openIssuesCount} languagesUrl={repoData.languagesUrl} />
                     </AccordionDetails></Accordion >))
             }
             {publicRepoNum && (<Stack spacing={2}>

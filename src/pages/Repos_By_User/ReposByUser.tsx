@@ -5,6 +5,7 @@ import AccordionDetails from '@mui/material/AccordionDetails';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { RepoDetails } from './types';
 import RepositoryDetails from './components/RepositoryDetails';
+import RepositorySummary from './components/RepositorySummary';
 import Pagination from '@mui/material/Pagination';
 import Stack from '@mui/material/Stack';
 
@@ -139,11 +140,7 @@ const ReposByUser: React.FC<any> = () => {
                     aria-controls="panel1-content"
                     id="panel1-header"
                 >
-                    <React.Fragment>name:{repoData.name}<br />
-                        description:{repoData.description}<br />
-                        star:{repoData.starCount}<br />
-                        fork:{repoData.forkCount}<br />
-                    </React.Fragment>
+                    <RepositorySummary name={repoData.name} description={repoData.description} starCount={repoData.starCount} forkCount={repoData.forkCount} />
                 </AccordionSummary>
                     <AccordionDetails>
                         {/* <RepositoryDetails url={repoData.url} openIssuesCount={repoData.openIssuesCount} languagesUrl={repoData.languagesUrl} /> */}

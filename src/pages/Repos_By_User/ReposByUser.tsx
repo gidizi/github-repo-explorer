@@ -1,12 +1,16 @@
-import React, { useState, useEffect, ChangeEvent, FormEvent } from 'react';
+import React, { useState, ChangeEvent, FormEvent } from 'react';
 import Accordion from '@mui/material/Accordion';
 import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { RepoDetails } from './types';
 import RepositoryDetails from './components/RepositoryDetails';
+import Pagination from '@mui/material/Pagination';
+import Stack from '@mui/material/Stack';
 
-const repoListApiUrlGenerator = (username: string) => `https://api.github.com/users/${username}/repos`
+const resultsPerPage = 30
+
+const repoListApiUrlGenerator = (username: string, page: number) => `https://api.github.com/users/${username}/repos?page=${page}&per_page=${resultsPerPage}`
 const userDetailsAPIUrlGenerator = (username: string) => `https://api.github.com/users/${username}`
 
 
@@ -60,8 +64,16 @@ const ReposByUser: React.FC<any> = () => {
     const [reposData, setReposData] = useState<RepoDetails[]>([])
     const [publicRepoNum, setPublicRepoNum] = useState<number | null>(null)
 
-    async function getReposData(githubUser: string) {
-        const repoListProm = fetch(repoListApiUrlGenerator(githubUser), {
+    const [page, setPage] = React.useState(1);
+
+    const handleChange = (event: React.ChangeEvent<unknown>, value: number) => {
+        getReposData(username, value) //note: there could be a dedicated function here that only calls the repos api, for the scope of the project we will stick with that function
+        setPage(value);
+    };
+
+
+    async function getReposData(githubUser: string, resPage: number) {
+        const repoListProm = fetch(repoListApiUrlGenerator(githubUser, resPage), {
             headers: {
                 "Accept": "application/vnd.github+json",
             },
@@ -96,7 +108,8 @@ const ReposByUser: React.FC<any> = () => {
         setReposData([])
         setIsSubmitting(true)
         try {
-            getReposData(username)
+            const initialPageNum = 1
+            getReposData(username, initialPageNum)
             setIsSubmitting(false)
         } catch (error) {
             // setError(error)
@@ -108,8 +121,6 @@ const ReposByUser: React.FC<any> = () => {
         setUsername(e.target.value);
         setError(null)
     }
-
-
 
     return (
         <div>
@@ -135,9 +146,12 @@ const ReposByUser: React.FC<any> = () => {
                     </React.Fragment>
                 </AccordionSummary>
                     <AccordionDetails>
-                        <RepositoryDetails url={repoData.url} openIssuesCount={repoData.openIssuesCount} languagesUrl={repoData.languagesUrl} />
+                        {/* <RepositoryDetails url={repoData.url} openIssuesCount={repoData.openIssuesCount} languagesUrl={repoData.languagesUrl} /> */}
                     </AccordionDetails></Accordion >))
             }
+            {publicRepoNum && (<Stack spacing={2}>
+                <Pagination count={Math.ceil(publicRepoNum / resultsPerPage)} page={page} onChange={handleChange} />
+            </Stack>)}
 
         </div >
     );

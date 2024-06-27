@@ -1,4 +1,4 @@
-import React, { useState, ChangeEvent, FormEvent } from 'react';
+import React, { useState, useEffect, ChangeEvent, FormEvent } from 'react';
 import Accordion from '@mui/material/Accordion';
 import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
@@ -6,7 +6,9 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { RepoDetails } from './types';
 import RepositoryDetails from './components/RepositoryDetails';
 
-const GithubApiUrlGenerator = (username: string) => `https://api.github.com/users/${username}/repos`
+const repoListApiUrlGenerator = (username: string) => `https://api.github.com/users/${username}/repos`
+const userDetailsAPIUrlGenerator = (username: string) => `https://api.github.com/users/${username}`
+
 
 //todo: extract components of head an extra details
 //todo: improve visual display
@@ -20,6 +22,11 @@ interface RepoDTO {
     html_url: string;
     open_issues_count: number;
     languages_url: string;
+    [key: string]: any;
+}
+
+interface UserDetails {
+    public_repos: number;
     [key: string]: any;
 }
 
@@ -51,22 +58,36 @@ const ReposByUser: React.FC<any> = () => {
     const [error, setError] = useState<string | null>(null);
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [reposData, setReposData] = useState<RepoDetails[]>([])
+    const [publicRepoNum, setPublicRepoNum] = useState<number | null>(null)
 
     async function getReposData(githubUser: string) {
-        const res = await fetch(GithubApiUrlGenerator(githubUser), {
+        const repoListProm = fetch(repoListApiUrlGenerator(githubUser), {
             headers: {
                 "Accept": "application/vnd.github+json",
             },
         })
-        console.log("res", res)
-        if (res.status === 200) {
-            const listReposForUser = await res.json() as RepoDTO[]
-            const reposDetails = mapDTOToRepoDetails(listReposForUser)
+        const userDetailsProm = await fetch(userDetailsAPIUrlGenerator(githubUser), {
+            headers: {
+                "Accept": "application/vnd.github+json",
+            },
+        })
+
+        const [repoLisetRes, userDetailsRes] = await Promise.all([repoListProm, userDetailsProm])
+        const [repoListData, userDetailsData] = await Promise.all([repoLisetRes.json(), userDetailsRes.json()]);
+
+        if (repoLisetRes.status === 200 && userDetailsRes.status === 200) {
+            const reposDetails = mapDTOToRepoDetails(repoListData as RepoDTO[])
             setReposData(reposDetails)
+            setPublicRepoNum((userDetailsData as UserDetails).public_repos)
         } else {
-            const parsedErrResponse = await res.json() as FailedGitlabResponse
-            const errorMessage = parsedErrResponse.message ? parsedErrResponse.message : "Unknown error has occured"
-            setError(errorMessage)
+            if (repoLisetRes.status !== 200) {
+                setError((repoListData as FailedGitlabResponse).message)
+                return
+            }
+            if (userDetailsRes.status !== 200) {
+                setError((repoListData as FailedGitlabResponse).message) //notice: this will override the previous error if both appears. its an architectural decision
+                return
+            }
         }
     }
 
@@ -99,7 +120,8 @@ const ReposByUser: React.FC<any> = () => {
                 </button >
             </form>
 
-            {error}
+            {error && `an error has occured: ${error}`}
+            {publicRepoNum}
             {
                 reposData.map(repoData => (<Accordion><AccordionSummary
                     expandIcon={<ExpandMoreIcon />}

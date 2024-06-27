@@ -34,3 +34,4 @@ See the section about [deployment](https://facebook.github.io/create-react-app/d
 in order to get all languages used, we are making an additional network request.
 The result is potentially a very large number of network request which is inefficient and bad practice. - todo: its a bad comment because I can sent them only on openning the component
 4.No input validation has taken place as part of this app, and therefore unexpected input might cause unexpxected results
+5.The are number of api calls being made, in case of several errors, I have decided to take only one of them. otherwise scenario such as showing the same error twice might happen which we preffer to avoid.

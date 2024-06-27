@@ -10,12 +10,12 @@ type RepoAdditionalDetails = Pick<RepoDetails, 'name' | 'description' | 'starCou
 const RepositorySummary: React.FC<RepoAdditionalDetails> = ({ name, description, starCount, forkCount }) => {
     return (
         <List>
-            <ListItem><ListItemText primary={`Name: ${name}`}></ListItemText></ListItem >
-            <ListItem><ListItemText primary={`Description: ${description}`}></ListItemText></ListItem >
-            <ListItem><ListItemText primary={`Star Count: ${starCount}`}></ListItemText><ListItemIcon>
+            <ListItem><ListItemText primary={<>Name {name}</>}></ListItemText></ListItem >
+            <ListItem><ListItemText primary={<>Description {description}</>}></ListItemText></ListItem >
+            <ListItem><ListItemText primary={<>Star Count {starCount}</>}></ListItemText><ListItemIcon>
                 <StarIcon />
             </ListItemIcon></ListItem >
-            <ListItem><ListItemText primary={`Fork Count: ${forkCount}`}></ListItemText>
+            <ListItem><ListItemText primary={<>Fork Count {forkCount}</>}></ListItemText>
                 <ListItemIcon>
                     <CallSplit />
                 </ListItemIcon></ListItem >

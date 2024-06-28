@@ -31,4 +31,5 @@ in order to get all languages used, we are making an additional network request.
 
 #### `Assumption / Design dcisions`
 1.The are number of api calls being made, in case of several errors, I have decided to display only one of them. otherwise, scenarios such as showing the same error twice might happen which we preffer to avoid.  
-2.No input validation has taken place as part of this app, and therefore unexpected input might cause unexpxected results
+2.No input validation has taken place as part of this app, and therefore unexpected input might cause unexpxected results.  
+3.All potentially shareable types, APIs, etc., are currently located within the specific page directory. They will be relocated to the project's root if there is a need for reuse.

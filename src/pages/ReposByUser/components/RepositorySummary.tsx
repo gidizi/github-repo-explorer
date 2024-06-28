@@ -1,6 +1,6 @@
 import React from 'react';
 import Typography from '@mui/material/Typography';
-import { RepoDetails } from '../../../types/Domain';
+import { RepoDetails } from '../types/Domain';
 import StarIcon from '@mui/icons-material/Star';
 import CallSplit from '@mui/icons-material/ForkRight';
 import { List, ListItem } from '@mui/material';

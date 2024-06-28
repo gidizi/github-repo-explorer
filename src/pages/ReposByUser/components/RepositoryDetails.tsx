@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { RepoDetails } from '../../../types/Domain';
+import { RepoDetails } from '../types/Domain';
 import { List, ListItem } from '@mui/material';
 import LanguageIcon from '@mui/icons-material/Language';
 import AdjustIcon from '@mui/icons-material/Adjust';

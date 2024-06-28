@@ -1,7 +1,7 @@
 import React, { useState, ChangeEvent, FormEvent } from 'react';
-import { RepoDetails, } from '../../types/Domain';
+import { RepoDetails, } from './types/Domain';
 import { TextField, Button, Stack, Typography, Pagination, Container, Box } from '@mui/material';
-import { FailedGithubResponse, RepoDTO, UserDetailsDTO } from '../../types/DTO/GithubApi';
+import { FailedGithubResponse, RepoDTO, UserDetailsDTO } from './types/DTO/GithubApi';
 import { repoListApiUrlGenerator, userDetailsAPIUrlGenerator } from './api/apiUrls'
 import { mapDTOToRepoDetails } from "./mappers/mappers"
 import { reposPerReq } from './conf';

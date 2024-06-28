@@ -1,5 +1,5 @@
-import { RepoDTO } from "../../../types/DTO/GithubApi"
-import { RepoDetails } from "../../../types/Domain"
+import { RepoDTO } from "../types/DTO/GithubApi"
+import { RepoDetails } from "../types/Domain"
 
 export const mapDTOToRepoDetails = (reposDTO: RepoDTO[]): RepoDetails[] => {
     const reposDetails = reposDTO.map(repoDTO => {

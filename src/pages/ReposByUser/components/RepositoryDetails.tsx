@@ -14,10 +14,18 @@ const RepositoryDetails: React.FC<RepoAdditionalDetails> = ({ url, openIssuesCou
   const [languages, setLanguages] = useState<string[]>([])
 
   async function getLanguages(languagesUrl: RepoAdditionalDetails['languagesUrl']) {
-    const res = await fetch(languagesUrl)
-    const languageData = await res.json()
-    setLanguages(Object.keys(languageData))
-    //todo: add error handling
+    const errorMessageAsArr = ["There had been an issue with the language list"] //not necessarily best practice, but I think its ok for the exercise
+    try {
+      const res = await fetch(languagesUrl)
+      if (res.status !== 200) {
+        setLanguages(errorMessageAsArr)
+        return
+      }
+      const languageData = await res.json()
+      setLanguages(Object.keys(languageData))
+    } catch (error) {
+      setLanguages(errorMessageAsArr)
+    }
   }
 
   useEffect(() => {

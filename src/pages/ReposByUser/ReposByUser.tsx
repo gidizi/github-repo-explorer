@@ -82,7 +82,15 @@ const ReposByUser: React.FC<{}> = () => {
     }
 
     return (
-        <div style={{ padding: '20px' }}>
+        <Container maxWidth="md" style={{ padding: '20px' }}>
+            <Box textAlign="center">
+                <Typography variant="h4" component="h1">
+                    GitHub Repository Explorer
+                </Typography>
+                <Typography variant="h6" component="p">
+                    Enter a GitHub username to get details of their repositories.
+                </Typography>
+            </Box>
             <form onSubmit={handleSubmit} style={{ marginBottom: '20px' }}>
                 <TextField
                     label="GitHub Username"
@@ -116,8 +124,8 @@ const ReposByUser: React.FC<{}> = () => {
                     />
                 </Stack>
             )}
-        </div>
-    );;
+        </Container>
+    );
 };
 
 export default ReposByUser;

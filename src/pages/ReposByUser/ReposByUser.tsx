@@ -1,15 +1,13 @@
 import React, { useState, ChangeEvent, FormEvent } from 'react';
 import { RepoDetails, } from '../../types/Domain';
-import { TextField, Button, Stack, Typography, Pagination } from '@mui/material';
+import { TextField, Button, Stack, Typography, Pagination, Container, Box } from '@mui/material';
 import { FailedGithubResponse, RepoDTO, UserDetailsDTO } from '../../types/DTO/GithubApi';
 import { repoListApiUrlGenerator, userDetailsAPIUrlGenerator } from './api/apiUrls'
 import { mapDTOToRepoDetails } from "./mappers/mappers"
 import { reposPerReq } from './conf';
 import RepositoryList from './components/RepositoryList';
 
-const tempToken = 'temp'
 
-//todo: improve visual display
 const ReposByUser: React.FC<{}> = () => {
     const [username, setUsername] = useState("")
     const [reposData, setReposData] = useState<RepoDetails[]>([])
@@ -31,15 +29,11 @@ const ReposByUser: React.FC<{}> = () => {
         const repoListProm = fetch(repoListApiUrlGenerator(githubUser, resPage), {
             headers: {
                 "Accept": "application/vnd.github+json",
-                'Authorization': `token ${tempToken}`,
-                'Content-Type': 'application/json'
             },
         })
         const userDetailsProm = await fetch(userDetailsAPIUrlGenerator(githubUser), {
             headers: {
                 "Accept": "application/vnd.github+json",
-                'Authorization': `token ${tempToken}`,
-                'Content-Type': 'application/json'
             },
         })
 

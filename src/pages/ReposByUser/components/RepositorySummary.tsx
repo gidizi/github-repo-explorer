@@ -3,7 +3,7 @@ import Typography from '@mui/material/Typography';
 import { RepoDetails } from '../../../types/Domain';
 import StarIcon from '@mui/icons-material/Star';
 import CallSplit from '@mui/icons-material/ForkRight';
-import { List, ListItem, ListItemText, ListItemIcon } from '@mui/material';
+import { List, ListItem } from '@mui/material';
 
 type RepoAdditionalDetails = Pick<RepoDetails, 'name' | 'description' | 'starCount' | 'forkCount'>;
 

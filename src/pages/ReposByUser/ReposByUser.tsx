@@ -1,11 +1,10 @@
 import React, { useState, ChangeEvent, FormEvent } from 'react';
 import { RepoDetails, } from '../../types/Domain';
+import { TextField, Button, Stack, Typography, Pagination } from '@mui/material';
 import { FailedGithubResponse, RepoDTO, UserDetailsDTO } from '../../types/DTO/GithubApi';
 import { repoListApiUrlGenerator, userDetailsAPIUrlGenerator } from './api/apiUrls'
 import { mapDTOToRepoDetails } from "./mappers/mappers"
 import { reposPerReq } from './conf';
-import Pagination from '@mui/material/Pagination';
-import Stack from '@mui/material/Stack';
 import RepositoryList from './components/RepositoryList';
 
 const tempToken = 'temp'
@@ -22,7 +21,7 @@ const ReposByUser: React.FC<{}> = () => {
 
     const [page, setPage] = React.useState(1);
 
-    const handleChange = (event: React.ChangeEvent<unknown>, value: number) => {
+    const handlePageChange = (event: React.ChangeEvent<unknown>, value: number) => {
         getReposData(username, value) //note: there could be a dedicated function here that only calls the repos api, for the scope of the project we will stick with that function
         setPage(value);
     };
@@ -83,22 +82,42 @@ const ReposByUser: React.FC<{}> = () => {
     }
 
     return (
-        <div>
-            <form onSubmit={handleSubmit}>
-                <input type='text' value={username} onChange={handleInputChange} /><br />
-                < button disabled={username.length === 0 || isSubmitting}>
-                    submit
-                </button >
+        <div style={{ padding: '20px' }}>
+            <form onSubmit={handleSubmit} style={{ marginBottom: '20px' }}>
+                <TextField
+                    label="GitHub Username"
+                    variant="outlined"
+                    value={username}
+                    onChange={handleInputChange}
+                    fullWidth
+                    margin="normal"
+                />
+                <Button
+                    type="submit"
+                    variant="contained"
+                    color="primary"
+                    disabled={username.length === 0 || isSubmitting}
+                    fullWidth
+                >
+                    Submit
+                </Button>
             </form>
 
-            {error && `an error has occured: ${error}`}
-            <RepositoryList reposData={reposData} />
-            {publicRepoNum && (<Stack spacing={2}>
-                <Pagination count={Math.ceil(publicRepoNum / reposPerReq)} page={page} onChange={handleChange} />
-            </Stack>)}
+            {error && <Typography color="error">An error has occurred: {error}</Typography>}
 
-        </div >
-    );
+            <RepositoryList reposData={reposData} />
+
+            {publicRepoNum && (
+                <Stack spacing={2} alignItems="center" style={{ marginTop: '20px' }}>
+                    <Pagination
+                        count={Math.ceil(publicRepoNum / reposPerReq)}
+                        page={page}
+                        onChange={handlePageChange}
+                    />
+                </Stack>
+            )}
+        </div>
+    );;
 };
 
 export default ReposByUser;

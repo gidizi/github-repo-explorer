@@ -1,4 +1,5 @@
 import React from 'react';
+import Typography from '@mui/material/Typography';
 import { RepoDetails } from '../../../types/Domain';
 import StarIcon from '@mui/icons-material/Star';
 import CallSplit from '@mui/icons-material/ForkRight';
@@ -11,20 +12,20 @@ const RepositorySummary: React.FC<RepoAdditionalDetails> = ({ name, description,
     return (
         <List>
             <ListItem>
-                <div style={{ paddingRight: '8px' }}>Name {name}</div>
+                <Typography style={{ paddingRight: '8px' }}>Name: {name}</Typography>
             </ListItem>
             <ListItem>
-                <div style={{ paddingRight: '8px' }}>Description {description}</div>
+                <Typography style={{ paddingRight: '8px' }}>Description: {description}</Typography>
             </ListItem>
             <ListItem>
-                <div style={{ paddingRight: '8px' }}>tar Count {starCount}</div>
+                <Typography style={{ paddingRight: '8px' }}>Star Count: {starCount}</Typography>
                 <StarIcon />
             </ListItem>
             <ListItem>
-                <div style={{ paddingRight: '8px' }}>ork Count {forkCount}</div>
+                <Typography style={{ paddingRight: '8px' }}>Fork Count: {forkCount}</Typography>
                 <CallSplit />
             </ListItem>
-        </List >
+        </List>
     );
 };
 

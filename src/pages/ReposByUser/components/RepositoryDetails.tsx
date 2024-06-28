@@ -4,6 +4,8 @@ import { List, ListItem, ListItemText, ListItemIcon, Box } from '@mui/material';
 import LanguageIcon from '@mui/icons-material/Language';
 import AdjustIcon from '@mui/icons-material/Adjust';
 import LinkIcon from '@mui/icons-material/Link';
+import Typography from '@mui/material/Typography';
+
 
 type RepoAdditionalDetails = Pick<RepoDetails, 'url' | 'openIssuesCount' | 'languagesUrl'>;
 
@@ -25,15 +27,15 @@ const RepositoryDetails: React.FC<RepoAdditionalDetails> = ({ url, openIssuesCou
   return (
     <List>
       <ListItem>
-        <div style={{ paddingRight: '8px' }}>Url: {url}</div>
+        <Typography style={{ paddingRight: '8px' }}>Url: {url}</Typography>
         <LinkIcon />
       </ListItem>
       <ListItem>
-        <div style={{ paddingRight: '8px' }}>Open issues: {openIssuesCount}</div>
+        <Typography style={{ paddingRight: '8px' }}>Open issues: {openIssuesCount}</Typography>
         <AdjustIcon />
       </ListItem>
       <ListItem>
-        <div style={{ paddingRight: '8px' }}>Programing languages: {languages.join(", ")}</div>
+        <Typography style={{ paddingRight: '8px' }}>Programming languages: {languages.join(", ")}</Typography>
         <LanguageIcon />
       </ListItem>
     </List>

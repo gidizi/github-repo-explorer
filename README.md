@@ -27,12 +27,14 @@ See the section about [deployment](https://facebook.github.io/create-react-app/d
 
 
 
-##Consideration:
-1.when gitlab api is being used without personal/user/app token it is limited and therefore limitation error might appear.
-2.Results limitation / pagination: todo: fill it
-3.multiple api usage?
-3.The main api provides only a single language (probably the most used) from the repo.
+##Challanges beyond the task's description:
+1.when gitlab api is being used without personal/user/app token it is limited and therefore limitation error might appear. please contact the developer in case that happens :)
+2.Api limitations - The reposoris api is limited to 100 results. therefore we have decided to use pagination with limit of 30 results per page
+3.The has been a need to call few endpoints in order to achieve pagination, one for the repo list and other for user detail in order to get number of public repos.
+4.The main api provides only a single language (probably the most used) from the repo.
 in order to get all languages used, we are making an additional network request.
-The result is potentially a very large number of network request which is inefficient and bad practice. - todo: its a bad comment because I can sent them only on openning the component
-4.No input validation has taken place as part of this app, and therefore unexpected input might cause unexpxected results
-5.The are number of api calls being made, in case of several errors, I have decided to take only one of them. otherwise scenario such as showing the same error twice might happen which we preffer to avoid.
+5. We are using the "accordion" component in order to display the data, which by default loads the component at the "hidden part" which caused many ineffient parralel calls to languages api. that issue was fixed so the component only loads when repo is being expanded.
+
+##Assumption / Design dcisions
+1.The are number of api calls being made, in case of several errors, I have decided to take only one of them. otherwise scenario such as showing the same error twice might happen which we preffer to avoid.
+2.No input validation has taken place as part of this app, and therefore unexpected input might cause unexpxected results

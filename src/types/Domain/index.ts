@@ -1,4 +1,3 @@
-//todo: consider splitting into basic and additional
 export interface RepoDetails {
     name: string;
     description: string | null;
@@ -8,3 +7,4 @@ export interface RepoDetails {
     openIssuesCount: number;
     languagesUrl: string;
 }
+

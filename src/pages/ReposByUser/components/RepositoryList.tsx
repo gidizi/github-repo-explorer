@@ -1,5 +1,5 @@
 import React from 'react';
-import { RepoDetails } from '../types';
+import { RepoDetails } from '../../../types/Domain';
 import Accordion from '@mui/material/Accordion';
 import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';

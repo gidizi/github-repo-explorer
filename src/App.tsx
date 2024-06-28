@@ -1,6 +1,6 @@
 import React from 'react';
 import './App.css';
-import ReposByUser from './pages/Repos_By_User/ReposByUser';
+import ReposByUser from './pages/ReposByUser/ReposByUser';
 
 function App() {
   return (

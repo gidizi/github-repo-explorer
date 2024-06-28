@@ -1,5 +1,5 @@
 import React from 'react';
-import { RepoDetails } from '../types';
+import { RepoDetails } from '../../../types/Domain';
 import StarIcon from '@mui/icons-material/Star';
 import CallSplit from '@mui/icons-material/ForkRight';
 import { List, ListItem, ListItemText, ListItemIcon } from '@mui/material';
